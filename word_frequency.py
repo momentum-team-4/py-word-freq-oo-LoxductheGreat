@@ -14,12 +14,15 @@ class FileReader:
         This should read all the contents of the file
         and return them as one string.
         """
+        with open(file, "r") as read_contents:
+            return FileReader.read_contents
         raise NotImplementedError("FileReader.read_contents")
 
 
-class WordList:
+class WordList(FileReader):
     def __init__(self, text):
-        pass
+        self.word_li = text
+        
 
     def extract_words(self):
         """
@@ -27,6 +30,13 @@ class WordList:
         is responsible for lowercasing all words and stripping
         them of punctuation.
         """
+        
+        #pylint: disable=no-member
+        # return text.lower().replace(',',' ').replace('.',' ').replace('!',' ').replace(':',' ').replace('-',' ')
+        
+        self.words = self.word_li.lower().replace(',',' ').replace('.',' ').replace('!',' ').replace(':',' ').replace('-',' ').split()
+
+        # return word_list.lower().replace(',',' ').replace('.',' ').replace('!',' ')
         raise NotImplementedError("WordList.extract_words")
 
     def remove_stop_words(self):
@@ -34,6 +44,14 @@ class WordList:
         Removes all stop words from our word list. Expected to
         be run after extract_words.
         """
+
+        new_word_list = []
+        
+        for word in self.words:
+            if word not in STOP_WORDS:
+                new_word_list.append(word)
+
+
         raise NotImplementedError("WordList.remove_stop_words")
 
     def get_freqs(self):
